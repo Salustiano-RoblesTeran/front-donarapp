@@ -1,8 +1,10 @@
 import FundationCard from './components/FundationCard'
 import Navbar from './components/Navbar'
-import AuthForm from './pages/AuthForm'
 import CardContainer from './components/CardContainer';
 import Fundation from './pages/Fundation';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import Dashboard from './pages/Dashboard';
+import Home from './pages/Home';
 
 const fundacion = {
   imagen: "https://via.placeholder.com/150",
@@ -58,18 +60,15 @@ const fundaciones = [
 ];
 
 function App() {
-
   return (
-    <>
-
-      <Navbar/>
-      <CardContainer fundaciones={fundaciones} />
-
-      {/* <Navbar/>
-
-      <Fundation fundacion={fundacion} donaciones={donaciones}/> */}
-    </>
-  )
+    <BrowserRouter>
+      <Navbar />
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/dashboard' element={<Dashboard />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
-export default App
+export default App;
