@@ -1,21 +1,41 @@
 import React, { useState } from "react";
+import { authRegister } from "../helpers/auth";
 
 export default function RegisterModal({ mostrar, cerrarModal }) {
-  const [nombreFundacion, setNombreFundacion] = useState("");
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
+  const [fundation_name, setFundation_name] = useState("");
+  const [name, setName] = useState("");
+  const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
-  const [imagen, setImagen] = useState("");
-  const [descripcion, setDescripcion] = useState("");
+  const [profile_url, setProfile_url] = useState("");
+  const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
 
   if (!mostrar) return null;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Lógica para registrar la fundación
-    console.log("Registrar fundación:", nombreFundacion, nombre, apellido, email, imagen, descripcion, password);
+  
+    const userData = {
+      fundation_name,
+      name,
+      last_name,
+      email,
+      profile_url,
+      description,
+      password
+    };
+  
+    await authRegister(userData);
+    cerrarModal();
+    setFundation_name('')
+    setName('');
+    setLast_name('')
+    setEmail('')
+    setProfile_url('')
+    setDescription('')
+    setPassword('')
   };
+  
 
   return (
     <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
@@ -30,14 +50,14 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
 
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
-            <label htmlFor="nombreFundacion" className="block text-sm font-semibold text-gray-700">
+            <label htmlFor="fundation_name" className="block text-sm font-semibold text-gray-700">
               Nombre de la Fundación
             </label>
             <input
               type="text"
-              id="nombreFundacion"
-              value={nombreFundacion}
-              onChange={(e) => setNombreFundacion(e.target.value)}
+              id="fundation_name"
+              value={fundation_name}
+              onChange={(e) => setFundation_name(e.target.value)}
               placeholder="Nombre de la Fundación"
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />
@@ -51,22 +71,22 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
               </label>
               <input
                 type="text"
-                id="nombre"
-                value={nombre}
-                onChange={(e) => setNombre(e.target.value)}
+                id="name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
                 placeholder="Nombre"
                 className="w-full p-2 mt-2 rounded-lg border border-gray-300"
               />
             </div>
             <div className="flex-1">
-              <label htmlFor="apellido" className="block text-sm font-semibold text-gray-700">
+              <label htmlFor="last_name" className="block text-sm font-semibold text-gray-700">
                 Apellido
               </label>
               <input
                 type="text"
-                id="apellido"
-                value={apellido}
-                onChange={(e) => setApellido(e.target.value)}
+                id="last_name"
+                value={last_name}
+                onChange={(e) => setLast_name(e.target.value)}
                 placeholder="Apellido"
                 className="w-full p-2 mt-2 rounded-lg border border-gray-300"
               />
@@ -88,27 +108,27 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="imagen" className="block text-sm font-semibold text-gray-700">
+            <label htmlFor="profile_url" className="block text-sm font-semibold text-gray-700">
               URL de la Imagen
             </label>
             <input
               type="text"
-              id="imagen"
-              value={imagen}
-              onChange={(e) => setImagen(e.target.value)}
+              id="profile_url"
+              value={profile_url}
+              onChange={(e) => setProfile_url(e.target.value)}
               placeholder="URL de la imagen"
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />
           </div>
 
           <div className="mb-4">
-            <label htmlFor="descripcion" className="block text-sm font-semibold text-gray-700">
+            <label htmlFor="description" className="block text-sm font-semibold text-gray-700">
               Descripción
             </label>
             <textarea
-              id="descripcion"
-              value={descripcion}
-              onChange={(e) => setDescripcion(e.target.value)}
+              id="description"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
               placeholder="Descripción de la fundación"
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />
