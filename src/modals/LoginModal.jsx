@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { authLogin } from "../helpers/auth";
 import { useNavigate } from "react-router-dom";
 
-export default function LoginModal({ mostrar, cerrarModal }) {
+export default function LoginModal({ setIsAuth, mostrar, cerrarModal }) {
   const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -26,6 +26,8 @@ export default function LoginModal({ mostrar, cerrarModal }) {
         cerrarModal();
         setEmail("");
         setPassword("");
+        setIsAuth(true)
+        
       } else {
         setError("Credenciales incorrectas. Intenta de nuevo.");
       }

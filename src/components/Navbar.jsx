@@ -3,7 +3,7 @@ import { useState } from "react";
 import LoginModal from "../modals/LoginModal";
 import RegisterModal from "../modals/RegisterModal";
 
-export default function Navbar() {
+export default function Navbar({ isAuth, setIsAuth }) {
   // Estado para manejar la visibilidad de los modales
   const [mostrarLoginModal, setMostrarLoginModal] = useState(false);
   const [mostrarRegistroModal, setMostrarRegistroModal] = useState(false);
@@ -14,7 +14,7 @@ export default function Navbar() {
 
   const abrirRegistroModal = () => setMostrarRegistroModal(true);
   const cerrarRegistroModal = () => setMostrarRegistroModal(false);
-
+  
   return (
     <nav className="bg-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
@@ -46,24 +46,31 @@ export default function Navbar() {
         </div>
 
         {/* Botones de autenticación */}
-        <div className="space-x-4">
-          <button
-            onClick={abrirLoginModal}
-            className="bg-black text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-800"
-          >
-            Iniciar Sesión
-          </button>
-          <button
-            onClick={abrirRegistroModal}
-            className="bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md hover:bg-gray-400"
-          >
-            Registrarse
-          </button>
-        </div>
+        {!isAuth ? (
+          <div className="space-x-4">
+            <button
+              onClick={abrirLoginModal}
+              className="bg-black text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-800"
+            >
+              Iniciar Sesión
+            </button>
+            <button
+              onClick={abrirRegistroModal}
+              className="bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md hover:bg-gray-400"
+            >
+              Registrarse
+            </button>
+          </div>
+          ) : (
+            <div>
+              <button onClick={() => setIsAuth(false)} className="btn">Cerrar sesión</button>
+            </div>
+          )}
       </div>
 
+
       {/* Modales */}
-      <LoginModal mostrar={mostrarLoginModal} cerrarModal={cerrarLoginModal} />
+      <LoginModal mostrar={mostrarLoginModal} cerrarModal={cerrarLoginModal} setIsAuth={setIsAuth} />
       <RegisterModal mostrar={mostrarRegistroModal} cerrarModal={cerrarRegistroModal} />
     </nav>
   );

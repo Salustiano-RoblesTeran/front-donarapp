@@ -1,21 +1,11 @@
-import FundationCard from './components/FundationCard'
 import Navbar from './components/Navbar'
-import CardContainer from './components/CardContainer';
-import Fundation from './pages/Fundation';
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import PrivateRoutes from './routes/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
+import { getFundations } from './helpers/fundations';
 
-const fundacion = {
-  imagen: "https://via.placeholder.com/150",
-  nombre: "Fundación Ayuda Siempre",
-  creador: {
-    nombre: "Juan",
-    apellido: "Pérez"
-  },
-  descripcion: "Esta fundación tiene como objetivo ayudar a las comunidades más necesitadas mediante la recolección de donaciones.",
-  recaudado: 25000
-};
 
 const donaciones = [
   {
@@ -41,31 +31,36 @@ const donaciones = [
   }
 ];
 
-const fundaciones = [
-  {
-    imagen: 'url-de-imagen1',
-    titulo: 'Fundación A',
-    descripcion: 'Descripción de la fundación AEl desarrollo tecnológico ha avanzado a pasos agigantados en las últimas décadas, cambiando la forma en que interactuamos con el mundo y entre nosotros. Las innovaciones en áreas como la inteligencia artificial, la automatización y la conectividad han transformado industrias enteras y continúan abriendo nuevas posibilidades. La tecnología no solo ha mejorado la eficiencia y la productividad, sino que también ha democratizado el acceso a la información, permitiendo que',
-    recaudado: 12000,
-    categoria: 'Educación',
-  },
-  {
-    imagen: 'url-de-imagen2',
-    titulo: 'Fundación B',
-    descripcion: 'Descripción de la fundación B',
-    recaudado: 9000,
-    categoria: 'Salud',
-  },
-  // Agregar más fundaciones aquí...
-];
-
 function App() {
+  const [fundaciones, setFundaciones] = useState([]);
+  
+  const [isAuth, setIsAuth] = useState(false);
+
+
+
+  useEffect(() => {
+    const fetchFundaciones = async () => {
+      const response = await getFundations();
+      setFundaciones(response);
+    };
+  
+    fetchFundaciones();
+
+  }, []);
+
   return (
     <BrowserRouter>
-      <Navbar />
+      <Navbar isAuth={isAuth} setIsAuth={setIsAuth}/>
       <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/' element={<Home  fundaciones = {fundaciones}/>} />
+        <Route 
+          path='/dashboard' 
+          element={
+            <PrivateRoutes isAuth={isAuth}>
+              <Dashboard />
+            </PrivateRoutes>
+          } 
+        />
       </Routes>
     </BrowserRouter>
   );

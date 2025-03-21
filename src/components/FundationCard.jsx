@@ -1,6 +1,6 @@
 export default function FundationCard({ imagen, titulo, descripcion, recaudado, categoria }) {
   return (
-    <div className="flex bg-white shadow-md rounded-lg overflow-hidden w-full mb-6 mx-auto">
+    <div className="w-full md:w-4/5 lg:w-3/4 p-4 border rounded shadow bg-white">
       {/* Imagen */}
       <img src={imagen} alt={titulo} className="w-48 h-48 object-cover" />
 
