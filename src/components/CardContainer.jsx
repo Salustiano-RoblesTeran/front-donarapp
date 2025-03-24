@@ -1,20 +1,20 @@
 import FundationCard from "./FundationCard";
 
-export default function CardContainer({ fundaciones }) {
-  if (!fundaciones || fundaciones.length === 0) {
+export default function CardContainer({ fundations }) {
+  if (!fundations || fundations.length === 0) {
     return <p>No hay fundaciones disponibles.</p>;
   }
 
   return (
     <div className="w-full flex justify-center items-center flex-wrap gap-4">
-      {fundaciones.map((fundacion) => (
+      {fundations.map((fundation) => (
         <FundationCard
-          key={fundacion._id}
-          imagen={fundacion.profile_url}
-          titulo={fundacion.fundation_name}
-          descripcion={fundacion.description}
-          recaudado={fundacion.recaudado}
-          categoria={fundacion.categoria}
+          key={fundation._id}
+          imagen={fundation.profile_url}
+          titulo={fundation.fundation_name}
+          descripcion={fundation.description}
+          recaudado={fundation.recaudado}
+          categoria={fundation.category?.category}
         />
       ))}
     </div>

@@ -1,33 +1,38 @@
 import React, { useState, useEffect } from "react";
-import { getCategories, getFundations } from "../helpers/fundations";
+import { getCategories, getFundations, getFundationsCategories } from "../helpers/fundations";
 import CardContainer from "../components/CardContainer";
 
 const Home = () => {
-  const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");  
-  const [categorias, setCategorias] = useState([]);
-  const [fundaciones, setFundaciones] = useState([]);
+  const [CategorySelected, setCategorySelected] = useState("");  
+  const [categories, setCategories] = useState([]);
+  const [fundations, setFundations] = useState([]);
 
-  // Traer categorías y fundaciones desde la API
+  // Traer categorías una sola vez al montar
   useEffect(() => {
     const fetchCategorias = async () => {
       const response = await getCategories();
-      setCategorias(response.allCategories);
+      setCategories(response.allCategories);
     };
-
-    
-    const fetchFundaciones = async () => {
-      const response = await getFundations();
-      setFundaciones(response.user);
-    };
-
     fetchCategorias();
-    fetchFundaciones();
   }, []);
 
-  console.log(categorias)
+  // Traer fundaciones cuando cambia la categoría seleccionada
+  useEffect(() => {
+    const fetchFundations = async () => {
+      if (CategorySelected) {
+        const response = await getFundationsCategories(CategorySelected);
+        setFundations(response.fundationsFilter);
+      } else {
+        const response = await getFundations();
+        setFundations(response.user);
+      }
+    };
+    fetchFundations();
+  }, [CategorySelected]);
 
-  // Muestra un loader si fundaciones aún no está disponible
-  if (!fundaciones.length) {
+  console.log(fundations);
+
+  if (!fundations.length) {
     return <p className="text-center mt-10 text-lg">Cargando fundaciones...</p>;
   }
 
@@ -37,14 +42,14 @@ const Home = () => {
         {/* Filtro por categoría */}
         <div className="mb-4">
           <select
-            value={categoriaSeleccionada}
-            onChange={(e) => setCategoriaSeleccionada(e.target.value)}
+            value={CategorySelected}
+            onChange={(e) => setCategorySelected(e.target.value)}
             className="p-2 border border-gray-300 rounded"
           >
             <option value="">Todas las categorías</option>
-            {categorias.map((categoria) => (
-              <option key={categoria._id} value={categoria.category}>
-                {categoria.category}
+            {categories.map((category) => (
+              <option key={category._id} value={category._id}>
+                {category.category}
               </option>
             ))}
           </select>
@@ -52,8 +57,7 @@ const Home = () => {
       </div>
 
       {/* Aquí pasas fundaciones al CardContainer */}
-      <CardContainer fundaciones={fundaciones} />
-
+      <CardContainer fundations={fundations} />
     </>
   );
 };

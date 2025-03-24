@@ -2,7 +2,7 @@ export default function FundationCard({ imagen, titulo, descripcion, recaudado, 
   return (
     <div className="w-full md:w-4/5 lg:w-3/4 p-4 border rounded shadow bg-white flex flex-row items-center">
       {/* Imagen a la izquierda */}
-      <img src={imagen} alt={titulo} className="w-48 h-48 object-cover mr-4" />
+      <img src={imagen} alt={titulo} className="w-48 h-auto max-h-48 object-cover mr-4" />
 
       {/* Contenido a la derecha */}
       <div className="flex flex-col w-full h-full justify-between">

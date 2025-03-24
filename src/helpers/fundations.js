@@ -43,3 +43,19 @@ export const getCategories = async () => {
         console.error('Hubo un error al obtener las categorías:', error.message);
     }
 }
+
+
+export const getFundationsCategories = async (category) => {
+    try {
+        const response = await fetch(`http://localhost:3000/api/fundations/filter?category=${category}`, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+        const data = await response.json();
+        return data;
+    } catch (error) {
+        console.error('Hubo un error al obtener las categorías:', error.message);
+    }
+}
