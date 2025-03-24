@@ -1,14 +1,28 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { authRegister } from "../helpers/auth";
+import { getCategories } from "../helpers/fundations";
 
 export default function RegisterModal({ mostrar, cerrarModal }) {
+
+  const [categorias, setCategorias] = useState([]);
+
   const [fundation_name, setFundation_name] = useState("");
   const [name, setName] = useState("");
   const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
   const [profile_url, setProfile_url] = useState("");
+  const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
+
+    useEffect(() => {
+      const fetchCategorias = async () => {
+        const response = await getCategories();
+        setCategorias(response.allCategories);
+      };
+  
+      fetchCategorias();
+    }, []);
 
   if (!mostrar) return null;
 
@@ -21,9 +35,12 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
       last_name,
       email,
       profile_url,
+      category,
       description,
       password
     };
+
+    console.log(userData)
   
     await authRegister(userData);
     cerrarModal();
@@ -32,6 +49,7 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
     setLast_name('')
     setEmail('')
     setProfile_url('')
+    setCategory('')
     setDescription('')
     setPassword('')
   };
@@ -107,19 +125,43 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
             />
           </div>
 
-          <div className="mb-4">
-            <label htmlFor="profile_url" className="block text-sm font-semibold text-gray-700">
-              URL de la Imagen
-            </label>
-            <input
-              type="text"
-              id="profile_url"
-              value={profile_url}
-              onChange={(e) => setProfile_url(e.target.value)}
-              placeholder="URL de la imagen"
-              className="w-full p-2 mt-2 rounded-lg border border-gray-300"
-            />
-          </div>
+          <div className="flex mb-4 space-x-4">
+      {/* Input de URL de la Imagen */}
+      <div className="flex-1">
+        <label htmlFor="profile_url" className="block text-sm font-semibold text-gray-700">
+          URL de la Imagen
+        </label>
+        <input
+          type="text"
+          id="profile_url"
+          value={profile_url}
+          onChange={(e) => setProfile_url(e.target.value)}
+          placeholder="URL de la imagen"
+          className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        />
+      </div>
+
+      {/* Select de Categoría */}
+      <div className="flex-1">
+        <label htmlFor="categoria" className="block text-sm font-semibold text-gray-700">
+          Categoría
+        </label>
+        <select
+          id="categoria"
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+        >
+          <option value="">Selecciona una categoría</option>
+          {categorias.map((categoria) => (
+            <option key={categoria._id} value={categoria._id}>
+              {categoria.category}
+            </option>
+          ))}
+        </select>
+      </div>
+    </div>
+
 
           <div className="mb-4">
             <label htmlFor="description" className="block text-sm font-semibold text-gray-700">

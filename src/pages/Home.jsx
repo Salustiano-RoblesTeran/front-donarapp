@@ -1,36 +1,33 @@
 import React, { useState, useEffect } from "react";
-import DonationModal from "../modals/DonationModal"; 
-import FundationCard from "../components/FundationCard";  
-import { getCategories } from "../helpers/fundations";
+import { getCategories, getFundations } from "../helpers/fundations";
+import CardContainer from "../components/CardContainer";
 
-const Home = ({ fundaciones }) => {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+const Home = () => {
   const [categoriaSeleccionada, setCategoriaSeleccionada] = useState("");  
   const [categorias, setCategorias] = useState([]);
+  const [fundaciones, setFundaciones] = useState([]);
 
-  // Traer categorías desde la API
+  // Traer categorías y fundaciones desde la API
   useEffect(() => {
     const fetchCategorias = async () => {
       const response = await getCategories();
-      if (response && response.allCategories) {
-        const categoriasExtraidas = response.allCategories.map(cat => cat.category);
-        setCategorias(categoriasExtraidas);
-      }
+      setCategorias(response.allCategories);
     };
-    fetchCategorias();
+
     
+    const fetchFundaciones = async () => {
+      const response = await getFundations();
+      setFundaciones(response.user);
+    };
+
+    fetchCategorias();
+    fetchFundaciones();
   }, []);
 
-
-  const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => setIsModalOpen(false);
-
-  const handleDonate = (donationData) => {
-    console.log("Donación realizada:", donationData);
-  };
+  console.log(categorias)
 
   // Muestra un loader si fundaciones aún no está disponible
-  if (!fundaciones) {
+  if (!fundaciones.length) {
     return <p className="text-center mt-10 text-lg">Cargando fundaciones...</p>;
   }
 
@@ -46,20 +43,17 @@ const Home = ({ fundaciones }) => {
           >
             <option value="">Todas las categorías</option>
             {categorias.map((categoria) => (
-              <option key={categoria} value={categoria}>
-                {categoria}
+              <option key={categoria._id} value={categoria.category}>
+                {categoria.category}
               </option>
             ))}
           </select>
         </div>
       </div>
 
-      {/* Modal de donación */}
-      <DonationModal
-        isOpen={isModalOpen}
-        onClose={handleCloseModal}
-        onDonate={handleDonate}
-      />
+      {/* Aquí pasas fundaciones al CardContainer */}
+      <CardContainer fundaciones={fundaciones} />
+
     </>
   );
 };
