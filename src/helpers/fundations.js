@@ -14,9 +14,9 @@ export const getFundations = async (userData) => {
     }
 }
 
-export const getFundation = async (id) => {
+export const getFundation = async (fundationId) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/fundations/${id}`, {
+        const response = await fetch(`http://localhost:3000/api/fundations/${fundationId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

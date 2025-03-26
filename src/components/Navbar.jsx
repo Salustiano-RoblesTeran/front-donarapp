@@ -1,5 +1,6 @@
 // Navbar.jsx
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import LoginModal from "../modals/LoginModal";
 import RegisterModal from "../modals/RegisterModal";
 
@@ -19,9 +20,9 @@ export default function Navbar({ isAuth, setIsAuth }) {
     <nav className="bg-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
-        <a href="#" className="text-black text-2xl font-bold">
-          DonarApp
-        </a>
+        <Link to="/" className="text-black text-2xl font-bold">
+          DonARG
+        </Link>
 
         {/* Buscador */}
         <div className="relative w-1/3">

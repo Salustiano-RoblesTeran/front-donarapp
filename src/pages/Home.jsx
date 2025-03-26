@@ -4,6 +4,7 @@ import CardContainer from "../components/CardContainer";
 
 const Home = () => {
   const [CategorySelected, setCategorySelected] = useState("");  
+  const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [fundations, setFundations] = useState([]);
 
@@ -19,22 +20,18 @@ const Home = () => {
   // Traer fundaciones cuando cambia la categoría seleccionada
   useEffect(() => {
     const fetchFundations = async () => {
+      setIsLoading(true);
       if (CategorySelected) {
         const response = await getFundationsCategories(CategorySelected);
         setFundations(response.fundationsFilter);
       } else {
         const response = await getFundations();
-        setFundations(response.user);
+        setFundations(response.fundation);
       }
+      setIsLoading(false);
     };
     fetchFundations();
   }, [CategorySelected]);
-
-  console.log(fundations);
-
-  if (!fundations.length) {
-    return <p className="text-center mt-10 text-lg">Cargando fundaciones...</p>;
-  }
 
   return (
     <>
@@ -56,8 +53,12 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Aquí pasas fundaciones al CardContainer */}
-      <CardContainer fundations={fundations} />
+      {/* Estado de carga */}
+      {isLoading ? (
+        <p className="text-center mt-10 text-lg">Cargando fundaciones...</p>
+      ) : (
+        <CardContainer fundations={fundations} />
+      )}
     </>
   );
 };

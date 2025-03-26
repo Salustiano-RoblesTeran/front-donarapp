@@ -29,7 +29,7 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
   
-    const userData = {
+    const fundationData = {
       fundation_name,
       name,
       last_name,
@@ -40,9 +40,9 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
       password
     };
 
-    console.log(userData)
+    console.log(fundationData)
   
-    await authRegister(userData);
+    await authRegister(fundationData);
     cerrarModal();
     setFundation_name('')
     setName('');
