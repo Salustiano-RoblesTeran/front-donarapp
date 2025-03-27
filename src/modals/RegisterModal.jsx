@@ -14,21 +14,22 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
+  const [targetAmount, setTargetAmount] = useState(""); // Estado para targetAmount
 
-    useEffect(() => {
-      const fetchCategorias = async () => {
-        const response = await getCategories();
-        setCategorias(response.allCategories);
-      };
-  
-      fetchCategorias();
-    }, []);
+  useEffect(() => {
+    const fetchCategorias = async () => {
+      const response = await getCategories();
+      setCategorias(response.allCategories);
+    };
+
+    fetchCategorias();
+  }, []);
 
   if (!mostrar) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     const fundationData = {
       fundation_name,
       name,
@@ -37,23 +38,24 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
       profile_url,
       category,
       description,
-      password
+      password,
+      targetAmount // Incluyendo targetAmount en los datos a enviar
     };
 
     console.log(fundationData)
-  
+
     await authRegister(fundationData);
     cerrarModal();
-    setFundation_name('')
+    setFundation_name('');
     setName('');
-    setLast_name('')
-    setEmail('')
-    setProfile_url('')
-    setCategory('')
-    setDescription('')
-    setPassword('')
+    setLast_name('');
+    setEmail('');
+    setProfile_url('');
+    setCategory('');
+    setDescription('');
+    setPassword('');
+    setTargetAmount(''); // Resetear targetAmount
   };
-  
 
   return (
     <div className="fixed inset-0 bg-opacity-50 flex justify-center items-center z-50">
@@ -126,42 +128,41 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
           </div>
 
           <div className="flex mb-4 space-x-4">
-      {/* Input de URL de la Imagen */}
-      <div className="flex-1">
-        <label htmlFor="profile_url" className="block text-sm font-semibold text-gray-700">
-          URL de la Imagen
-        </label>
-        <input
-          type="text"
-          id="profile_url"
-          value={profile_url}
-          onChange={(e) => setProfile_url(e.target.value)}
-          placeholder="URL de la imagen"
-          className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
-      </div>
+            {/* Input de URL de la Imagen */}
+            <div className="flex-1">
+              <label htmlFor="profile_url" className="block text-sm font-semibold text-gray-700">
+                URL de la Imagen
+              </label>
+              <input
+                type="text"
+                id="profile_url"
+                value={profile_url}
+                onChange={(e) => setProfile_url(e.target.value)}
+                placeholder="URL de la imagen"
+                className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              />
+            </div>
 
-      {/* Select de Categoría */}
-      <div className="flex-1">
-        <label htmlFor="categoria" className="block text-sm font-semibold text-gray-700">
-          Categoría
-        </label>
-        <select
-          id="categoria"
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
-        >
-          <option value="">Selecciona una categoría</option>
-          {categorias.map((categoria) => (
-            <option key={categoria._id} value={categoria._id}>
-              {categoria.category}
-            </option>
-          ))}
-        </select>
-      </div>
-    </div>
-
+            {/* Select de Categoría */}
+            <div className="flex-1">
+              <label htmlFor="categoria" className="block text-sm font-semibold text-gray-700">
+                Categoría
+              </label>
+              <select
+                id="categoria"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                className="w-full p-2 mt-2 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                <option value="">Selecciona una categoría</option>
+                {categorias.map((categoria) => (
+                  <option key={categoria._id} value={categoria._id}>
+                    {categoria.category}
+                  </option>
+                ))}
+              </select>
+            </div>
+          </div>
 
           <div className="mb-4">
             <label htmlFor="description" className="block text-sm font-semibold text-gray-700">
@@ -172,6 +173,20 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder="Descripción de la fundación"
+              className="w-full p-2 mt-2 rounded-lg border border-gray-300"
+            />
+          </div>
+          {/* Input para targetAmount */}
+          <div className="mb-4">
+            <label htmlFor="targetAmount" className="block text-sm font-semibold text-gray-700">
+              Monto Objetivo
+            </label>
+            <input
+              type="number"
+              id="targetAmount"
+              value={targetAmount}
+              onChange={(e) => setTargetAmount(e.target.value)}
+              placeholder="Monto objetivo"
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />
           </div>
@@ -189,6 +204,7 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />
           </div>
+
 
           <div className="flex justify-end">
             <button

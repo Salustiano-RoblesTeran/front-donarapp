@@ -14,9 +14,6 @@ const FundationDetail = () => {
   const [donationDescription, setDonationDescription] = useState('');
   const [transactions, setTransactions] = useState([]);  
 
-  console.log(id)
-
-
   useEffect(() => {
     const fetchFundation = async () => {
       try {
@@ -33,7 +30,7 @@ const FundationDetail = () => {
       try {
         const response = await getTransactions(id);
         console.log(response)
-        setTransactions(response.transactions);
+        setTransactions(response);
       } catch (error) {
         console.error("Error al obtener las transacciones:", error);
       } 
@@ -43,6 +40,8 @@ const FundationDetail = () => {
     fetchTransactions();
   }, [id]); // Dependencia del id para hacer la solicitud cuando cambie
 
+
+  console.log(fundation)
 
   if (loading) {
     return <p className="text-center mt-10">Cargando fundación...</p>; 
@@ -180,41 +179,46 @@ const FundationDetail = () => {
       <div className="rounded-2xl shadow-md p-6 bg-white">
         <h2 className="text-xl font-semibold">Estado de Recaudación</h2>
         <p className="text-lg text-black font-bold">
-          Recaudado: ${fundation.totalRaised}
+          Recaudado: ${transactions.totalRaised}
         </p>
         <div className="h-2 w-full bg-gray-200 rounded">
           <div
             className="h-full bg-green-500 rounded"
             style={{
-              width: `${(fundation.totalRaised / fundation.targetAmount) * 100}%`,  // Calculando el porcentaje
+              width: `${(transactions.totalRaised / fundation.targetAmount) * 100}%`,  // Calculando el porcentaje
             }} 
           ></div>
         </div>
         <p className="text-sm text-gray-500">{fundation.targetAmount}</p>
       </div>
 
-        {/* Donaciones Recientes */}
-        <div className="rounded-2xl shadow-md p-6 bg-white">
-        <h2 className="text-xl font-semibold mb-4">Últimas Donaciones</h2>
-        {transactions.length > 0 ? (
-            <ul className="space-y-4">
-            {transactions.map((transaction, idx) => (
-                <li key={idx} className="flex flex-col md:flex-row md:items-center justify-between gap-2 p-3 rounded-lg bg-gray-50 hover:bg-gray-100 transition">
-                <div className="flex flex-col">
-                    <span className="font-medium text-gray-800">{transaction.title}</span>
-                    <span className="text-xs text-gray-500">{transaction.description}</span>
-                </div>
-                <div className="flex flex-col text-right">
-                    <span className="text-green-600 font-semibold">${transaction.amount}</span>
-                    <span className="text-xs text-gray-400">{new Date(transaction.createdAt).toLocaleDateString()}</span>
-                </div>
-                </li>
-            ))}
-            </ul>
-        ) : (
-            <p className="text-gray-500">No hay donaciones recientes.</p>
-        )}
-        </div>
+    {/* Donaciones Recientes */}
+      <div className="rounded-2xl shadow-md p-6 bg-white">
+      <h2 className="text-xl font-semibold mb-4">Últimas Donaciones</h2>
+      {transactions.transactions && transactions.transactions.length > 0 ? (
+        <ul className="space-y-2"> {/* Reduje el espacio entre las donaciones */}
+          {transactions.transactions.map((transaction, idx) => (
+            <li
+              key={idx}
+              className="flex flex-col md:flex-row md:items-center justify-between gap-1 p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+            >
+              <div className="flex flex-col">
+                <span className="font-medium text-gray-800">{transaction.title}</span>
+                <span className="text-xs text-gray-500">{transaction.description}</span>
+              </div>
+              <div className="flex flex-col text-right">
+                <span className="text-green-600 font-semibold">${transaction.amount}</span>
+                <span className="text-xs text-gray-400">{new Date(transaction.date).toLocaleDateString()}</span>
+              </div>
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p className="text-gray-500">No hay donaciones recientes.</p>
+      )}
+    </div>
+
+
 
     </div>
   );
