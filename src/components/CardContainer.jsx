@@ -20,7 +20,7 @@ export default function CardContainer({ fundations }) {
             imagen={fundation.profile_url}
             titulo={fundation.fundation_name}
             descripcion={fundation.description}
-            recaudado={fundation.totalRaised}
+            recaudado={fundation.fundsRaised}
             categoria={fundation.category?.category}
           />
         </button>

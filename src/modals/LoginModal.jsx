@@ -22,6 +22,7 @@ export default function LoginModal({ setIsAuth, mostrar, cerrarModal }) {
       const response = await authLogin(userData);
 
       if (response?.token) {
+        localStorage.setItem('x-token', response.token)
         navigate("/dashboard");
         cerrarModal();
         setEmail("");
