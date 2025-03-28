@@ -16,6 +16,14 @@ export default function Navbar({ isAuth, setIsAuth }) {
   const abrirRegistroModal = () => setMostrarRegistroModal(true);
   const cerrarRegistroModal = () => setMostrarRegistroModal(false);
 
+  // Función para manejar el cierre de sesión
+  const cerrarSesion = () => {
+    // Eliminar el token del localStorage
+    localStorage.removeItem("token");
+    setIsAuth(false);
+    navigate("/"); // Redirigir a la página de inicio (puedes cambiar la URL si deseas)
+  };
+
   return (
     <nav className="bg-white p-4 shadow-md">
       <div className="container mx-auto flex justify-between items-center">
@@ -54,7 +62,7 @@ export default function Navbar({ isAuth, setIsAuth }) {
                 Dashboard
               </button>
               <button
-                onClick={() => setIsAuth(false)}
+                onClick={cerrarSesion}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700"
               >
                 Cerrar sesión
@@ -91,7 +99,7 @@ export default function Navbar({ isAuth, setIsAuth }) {
                 Dashboard
               </button>
               <button
-                onClick={() => setIsAuth(false)}
+                onClick={cerrarSesion}
                 className="bg-red-500 text-white px-4 py-2 rounded-lg shadow-md hover:bg-red-700"
               >
                 Cerrar sesión
