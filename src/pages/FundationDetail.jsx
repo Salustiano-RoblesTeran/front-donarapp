@@ -193,25 +193,28 @@ const FundationDetail = () => {
       </div>
 
     {/* Donaciones Recientes */}
-      <div className="rounded-2xl shadow-md p-6 bg-white">
+      <div className="rounded-2xl shadow-md p-6 bg-white mb-8">
       <h2 className="text-xl font-semibold mb-4">Últimas Donaciones</h2>
       {transactions.transactions && transactions.transactions.length > 0 ? (
         <ul className="space-y-2"> {/* Reduje el espacio entre las donaciones */}
-          {transactions.transactions.map((transaction, idx) => (
-            <li
-              key={idx}
-              className="flex flex-col md:flex-row md:items-center justify-between gap-1 p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
-            >
-              <div className="flex flex-col">
-                <span className="font-medium text-gray-800">{transaction.title}</span>
-                <span className="text-xs text-gray-500">{transaction.description}</span>
-              </div>
-              <div className="flex flex-col text-right">
-                <span className="text-green-600 font-semibold">${transaction.amount}</span>
-                <span className="text-xs text-gray-400">{new Date(transaction.date).toLocaleDateString()}</span>
-              </div>
-            </li>
-          ))}
+          {transactions.transactions
+            .filter((transaction) => transaction.status === "approved")  // Filtrar solo las transacciones con estado "approved"
+            .map((transaction, idx) => (
+              <li
+                key={idx}
+                className="flex flex-col md:flex-row md:items-center justify-between gap-1 p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
+              >
+                <div className="flex flex-col">
+                  <span className="font-medium text-gray-800">{transaction.title}</span>
+                  <span className="text-xs text-gray-500">{transaction.description}</span>
+                </div>
+                <div className="flex flex-col text-right">
+                  <span className="text-green-600 font-semibold">${transaction.amount}</span>
+                  <span className="text-xs text-gray-400">{new Date(transaction.date).toLocaleDateString()}</span>
+                </div>
+              </li>
+            ))}
+
         </ul>
       ) : (
         <p className="text-gray-500">No hay donaciones recientes.</p>

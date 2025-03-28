@@ -23,12 +23,15 @@ const Dashboard = () => {
   }, []);
 
   if (loading || !fundation) return <p>Cargando...</p>;
+  console.log("Transacciones:", fundation.allTransactions);
+
 
   const donations = fundation?.allTransactions?.map((transaction) => ({
     id: transaction._id,
     date: new Date(transaction.date).toISOString().split("T")[0],
     amount: transaction.amount,
     description: transaction.description,
+    status: transaction.status,
   })) || [];
 
   const remaining = fundation.targetAmount - fundation.fundsRaised;
@@ -36,7 +39,7 @@ const Dashboard = () => {
   const paymentStats = [
     { name: "Aprobados", value: fundation?.allTransactions?.filter(t => t.status === "approved").length || 0 },
     { name: "Rechazados", value: fundation?.allTransactions?.filter(t => t.status === "rejected").length || 0 },
-    { name: "Pendientes", value: fundation?.allTransactions?.filter(t => t.status === "pending").length || 0 },
+    { name: "Pendientes", value: fundation?.allTransactions?.filter(t => t.status === "in_process").length || 0 },
   ];
 
   const COLORS = ["#4CAF50", "#F44336", "#FF9800"];
@@ -78,6 +81,7 @@ const Dashboard = () => {
     if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
+
   return (
     <div className="p-4 md:p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -105,6 +109,7 @@ const Dashboard = () => {
       <div className="bg-white shadow-md p-6 rounded-lg">
         <h2 className="text-xl font-semibold text-center md:text-left">Donaciones por día</h2>
         <div className="w-full h-64">
+          {donationsForChart.length > 0 ? (
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={donationsForChart}>
               <XAxis dataKey="date" />
@@ -113,6 +118,11 @@ const Dashboard = () => {
               <Bar dataKey="amount" fill="#3B82F6" />
             </BarChart>
           </ResponsiveContainer>
+          ) : (
+            <div className="min-h-[300px] flex justify-center items-center">
+              <p className="text-center text-lg text-gray-600">Aún no hay ninguna donación</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -121,6 +131,7 @@ const Dashboard = () => {
   <div className="bg-white shadow-md p-6 rounded-lg">
     <h2 className="text-xl font-semibold text-center md:text-left">Estado de Donaciones</h2>
     <div className="w-full h-64">
+    {paymentStats.some((stat) => stat.value > 0) ? (
       <ResponsiveContainer width="100%" height="100%">
         <PieChart>
           <Pie
@@ -145,15 +156,22 @@ const Dashboard = () => {
           />
         </PieChart>
       </ResponsiveContainer>
+    ) : (
+      <div className="min-h-[300px] flex justify-center items-center">
+        <p className="text-center text-lg text-gray-600">No hay ningun estado por mostrar</p>
+      </div>
+    )}
     </div>
   </div>
 
   {/* Historial de Donaciones */}
   <div className="rounded-2xl shadow-md p-6 bg-white">
-    <h2 className="text-xl font-semibold mb-4">Historial de Donaciones</h2>
-    {currentDonations.length > 0 ? (
-      <ul className="space-y-2">
-        {currentDonations.map((donation, idx) => (
+  <h2 className="text-xl font-semibold mb-4">Historial de Donaciones</h2>
+  {currentDonations.length > 0 ? (
+    <ul className="space-y-2">
+      {currentDonations
+        .reverse()
+        .map((donation, idx) => (
           <li
             key={idx}
             className="flex flex-col md:flex-row md:items-center justify-between gap-1 p-2 rounded-lg bg-gray-50 hover:bg-gray-100 transition"
@@ -163,35 +181,51 @@ const Dashboard = () => {
               <span className="text-xs text-gray-500">{donation.date}</span>
             </div>
             <div className="flex flex-col text-right">
-              <span className="text-green-600 font-semibold">${donation.amount.toLocaleString()}</span>
+              {donation.status === "approved" && (
+                <span className="text-green-600 font-semibold">
+                  ${donation.amount.toLocaleString()}
+                </span>
+              )}
+              {donation.status === "in_process" && (
+                <span className="text-yellow-500 font-semibold">
+                  ${donation.amount.toLocaleString()}
+                </span>
+              )}
+              {donation.status === "rejected" && (
+                <span className="text-red-600 font-semibold">
+                  ${donation.amount.toLocaleString()}
+                </span>
+              )}
             </div>
           </li>
         ))}
-      </ul>
-    ) : (
-      <p className="text-gray-500">No hay donaciones recientes.</p>
-    )}
+    </ul>
+  ) : (
+    <p className="text-gray-500">No hay donaciones recientes.</p>
+  )}
 
-    <div className="flex justify-between items-center mt-4">
-      <button
-        onClick={handlePrevPage}
-        className="px-4 py-2 bg-gray-300 rounded-md text-gray-700"
-        disabled={currentPage === 1}
-      >
-        Anterior
-      </button>
-      <p className="text-gray-600">
-        Página {currentPage} de {totalPages}
-      </p>
-      <button
-        onClick={handleNextPage}
-        className="px-4 py-2 bg-gray-300 rounded-md text-gray-700"
-        disabled={currentPage === totalPages}
-      >
-        Siguiente
-      </button>
-    </div>
+  <div className="flex justify-between items-center mt-4">
+    <button
+      onClick={handlePrevPage}
+      className="px-4 py-2 bg-gray-300 rounded-md text-gray-700"
+      disabled={currentPage === 1}
+    >
+      Anterior
+    </button>
+    <p className="text-gray-600">
+      Página {currentPage} de {totalPages}
+    </p>
+    <button
+      onClick={handleNextPage}
+      className="px-4 py-2 bg-gray-300 rounded-md text-gray-700"
+      disabled={currentPage === totalPages}
+    >
+      Siguiente
+    </button>
   </div>
+</div>
+
+
 </div>
 
     </div>
