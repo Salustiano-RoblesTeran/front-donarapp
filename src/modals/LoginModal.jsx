@@ -20,6 +20,7 @@ export default function LoginModal({ setIsAuth, mostrar, cerrarModal }) {
 
     try {
       const response = await authLogin(userData);
+      console.log(response)
 
       if (response?.token) {
         localStorage.setItem('x-token', response.token)

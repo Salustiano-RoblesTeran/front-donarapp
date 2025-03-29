@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
-import { getCategories, getFundations, getFundationsCategories } from "../helpers/fundations";
+import { getCategories, getFoundations, getFoundationsCategories } from "../helpers/foundations";
 import CardContainer from "../components/CardContainer";
 
 const Home = () => {
   const [categorySelected, setCategorySelected] = useState("");
   const [isLoading, setIsLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [fundations, setFundations] = useState([]);
+  const [foundations, setFoundations] = useState([]);
   const [search, setSearch] = useState("");
   const [error, setError] = useState(null); // Nuevo estado para manejar errores
 
@@ -27,16 +27,16 @@ const Home = () => {
   }, []);
 
   useEffect(() => {
-    const fetchFundations = async () => {
+    const fetchFoundations = async () => {
       setIsLoading(true);
       try {
         let response;
         if (categorySelected) {
-          response = await getFundationsCategories(categorySelected);
-          setFundations(response.fundationsFilter);
+          response = await getFoundationsCategories(categorySelected);
+          setFoundations(response.foundationsFilter);
         } else {
-          response = await getFundations();
-          setFundations(response.fundation);
+          response = await getFoundations();
+          setFoundations(response.foundation);
         }
       } catch (err) {
         console.error("Error al obtener fundaciones:", err);
@@ -44,12 +44,12 @@ const Home = () => {
       }
       setIsLoading(false);
     };
-    fetchFundations();
+    fetchFoundations();
   }, [categorySelected]);
 
   // Filtrar por nombre de fundación
-  const filteredFundations = fundations.filter((foundation) =>
-    foundation.name.toLowerCase().includes(search.toLowerCase())
+  const filteredfoundations = foundations.filter((foundation) =>
+    foundation.foundation_name.toLowerCase().includes(search.toLowerCase())
   );
 
   // Manejador de evento para hacer scroll hacia la sección de donaciones
@@ -64,7 +64,7 @@ const Home = () => {
         <h1 className="text-4xl font-bold">Ayuda a cambiar el mundo con tu donación</h1>
         <p className="mt-3 text-lg">Encuentra una fundación y haz la diferencia.</p>
         <button
-          onClick={handleScrollToDonations} // Llamamos a la función para hacer scroll
+          onClick={handleScrollToDonations}
           className="mt-5 px-6 py-3 bg-yellow-400 text-blue-800 font-semibold rounded-full hover:bg-yellow-500 transition"
         >
           Dona ahora
@@ -131,7 +131,7 @@ const Home = () => {
         <>
           {/* Aquí agregamos el ref a la sección de las donaciones */}
           <div ref={donationsSectionRef}>
-            <CardContainer fundations={filteredFundations} />
+            <CardContainer foundations={filteredfoundations} />
           </div>
         </>
       )}

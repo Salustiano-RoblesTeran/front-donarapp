@@ -1,6 +1,6 @@
 const token = localStorage.getItem('x-token');
 
-export const getFundation = async () => {
+export const getFoundation = async () => {
     try {
         const response = await fetch('http://localhost:3000/api/dashboard', {
             method: 'GET',

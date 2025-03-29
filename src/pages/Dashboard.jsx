@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend, ResponsiveContainer } from "recharts";
-import { getFundation } from "../helpers/dashboard";
+import { getFoundation } from "../helpers/dashboard";
 
 const Dashboard = () => {
-  const [fundation, setFundation] = useState(null);
+  const [foundation, setFoundation] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getFundation();
-        setFundation(data);
+        const data = await getFoundation();
+        setFoundation(data);
       } catch (error) {
         console.error("Error al obtener la fundación:", error);
       } finally {
@@ -22,11 +22,10 @@ const Dashboard = () => {
     fetchData();
   }, []);
 
-  if (loading || !fundation) return <p>Cargando...</p>;
-  console.log("Transacciones:", fundation.allTransactions);
+  if (loading || !foundation) return <p>Cargando...</p>;
 
 
-  const donations = fundation?.allTransactions?.map((transaction) => ({
+  const donations = foundation?.allTransactions?.map((transaction) => ({
     id: transaction._id,
     date: new Date(transaction.date).toISOString().split("T")[0],
     amount: transaction.amount,
@@ -34,12 +33,12 @@ const Dashboard = () => {
     status: transaction.status,
   })) || [];
 
-  const remaining = fundation.targetAmount - fundation.fundsRaised;
+  const remaining = foundation.targetAmount - foundation.fundsRaised;
 
   const paymentStats = [
-    { name: "Aprobados", value: fundation?.allTransactions?.filter(t => t.status === "approved").length || 0 },
-    { name: "Rechazados", value: fundation?.allTransactions?.filter(t => t.status === "rejected").length || 0 },
-    { name: "Pendientes", value: fundation?.allTransactions?.filter(t => t.status === "in_process").length || 0 },
+    { name: "Aprobados", value: foundation?.allTransactions?.filter(t => t.status === "approved").length || 0 },
+    { name: "Rechazados", value: foundation?.allTransactions?.filter(t => t.status === "rejected").length || 0 },
+    { name: "Pendientes", value: foundation?.allTransactions?.filter(t => t.status === "in_process").length || 0 },
   ];
 
   const COLORS = ["#4CAF50", "#F44336", "#FF9800"];
@@ -86,8 +85,8 @@ const Dashboard = () => {
     <div className="p-4 md:p-6 space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div className="p-6 rounded-lg bg-white shadow-md text-center md:text-left">
-          <h1 className="text-2xl font-bold">{fundation?.fundation_name}</h1>
-          <p className="text-gray-600 mt-2">{fundation?.description}</p>
+          <h1 className="text-2xl font-bold">{foundation?.foundation_name}</h1>
+          <p className="text-gray-600 mt-2">{foundation?.description}</p>
         </div>
 
         <div className="p-6 rounded-lg bg-white shadow-md text-center md:text-left">
@@ -95,15 +94,16 @@ const Dashboard = () => {
           <div className="w-full bg-gray-300 rounded-lg h-6 mt-2">
             <div
               className="bg-blue-500 h-6 rounded-lg text-white text-center"
-              style={{ width: `${(fundation.fundsRaised / fundation.targetAmount) * 100}%` }}
+              style={{ width: `${Math.min((foundation.fundsRaised / foundation.targetAmount) * 100, 100)}%` }}
             >
-              {((fundation.fundsRaised / fundation.targetAmount) * 100).toFixed(2)}%
+              {Math.min((foundation.fundsRaised / foundation.targetAmount) * 100, 100).toFixed(2)}%
             </div>
           </div>
           <p className="mt-2 text-gray-600">
-            Faltan ${remaining.toLocaleString()} para alcanzar la meta de ${fundation.targetAmount.toLocaleString()}.
+            Faltan ${Math.max(remaining, 0).toLocaleString()} para alcanzar la meta de ${foundation.targetAmount.toLocaleString()}.
           </p>
         </div>
+
       </div>
 
       <div className="bg-white shadow-md p-6 rounded-lg">

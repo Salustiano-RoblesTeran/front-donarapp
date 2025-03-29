@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { authRegister } from "../helpers/auth";
-import { getCategories } from "../helpers/fundations";
+import { getCategories } from "../helpers/foundations";
 
 export default function RegisterModal({ mostrar, cerrarModal }) {
 
   const [categorias, setCategorias] = useState([]);
 
-  const [fundation_name, setFundation_name] = useState("");
+  const [foundation_name, setFoundation_name] = useState("");
   const [name, setName] = useState("");
   const [last_name, setLast_name] = useState("");
   const [email, setEmail] = useState("");
@@ -14,7 +14,7 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
   const [category, setCategory] = useState("");
   const [description, setDescription] = useState("");
   const [password, setPassword] = useState("");
-  const [targetAmount, setTargetAmount] = useState(""); // Estado para targetAmount
+  const [targetAmount, setTargetAmount] = useState("");
 
   useEffect(() => {
     const fetchCategorias = async () => {
@@ -30,8 +30,8 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const fundationData = {
-      fundation_name,
+    const foundationData = {
+      foundation_name,
       name,
       last_name,
       email,
@@ -39,22 +39,20 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
       category,
       description,
       password,
-      targetAmount // Incluyendo targetAmount en los datos a enviar
+      targetAmount
     };
 
-    console.log(fundationData)
-
-    await authRegister(fundationData);
+    await authRegister(foundationData);
     cerrarModal();
-    setFundation_name('');
+    setFoundation_name('');
     setName('');
     setLast_name('');
     setEmail('');
-    setProfile_url('');
+    setProfile_url(''); 
     setCategory('');
     setDescription('');
     setPassword('');
-    setTargetAmount(''); // Resetear targetAmount
+    setTargetAmount('');
   };
 
   return (
@@ -76,8 +74,8 @@ export default function RegisterModal({ mostrar, cerrarModal }) {
             <input
               type="text"
               id="fundation_name"
-              value={fundation_name}
-              onChange={(e) => setFundation_name(e.target.value)}
+              value={foundation_name}
+              onChange={(e) => setFoundation_name(e.target.value)}
               placeholder="Nombre de la Fundación"
               className="w-full p-2 mt-2 rounded-lg border border-gray-300"
             />

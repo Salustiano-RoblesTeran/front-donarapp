@@ -4,14 +4,14 @@ import Navbar from './components/Navbar';
 import PrivateRoutes from './routes/PrivateRoutes';
 import Dashboard from './pages/Dashboard';
 import Home from './pages/Home';
-import FundationDetail from './pages/FundationDetail';
+import FoundationDetail from './pages/FoundationDetail';
 import { isAuthenticate } from './helpers/auth';
-import { getFundations } from './helpers/fundations';
+import { getFoundations } from './helpers/foundations';
 import Footer from './components/Footer';
 import Success from "./pages/Success";
 
 function App() {
-  const [fundations, setFundations] = useState([]);
+  const [foundations, setFoundations] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
   const [loading, setLoading] = useState(true); // Estado de carga
 
@@ -34,10 +34,10 @@ function App() {
     isAuthenticated();
 
     // Obtener las fundaciones
-    const fetchFundaciones = async () => {
+    const fetchFoundaciones = async () => {
       try {
-        const response = await getFundations();
-        setFundations(response);
+        const response = await getFoundations();
+        setFoundations(response);
         setLoading(false); // Una vez que se obtienen las fundaciones, se detiene el spinner
       } catch (error) {
         console.error('Error al obtener las fundaciones:', error.message);
@@ -45,7 +45,7 @@ function App() {
       }
     };
 
-    fetchFundaciones();
+    fetchFoundaciones();
   }, []); // Dependencias vacías, se ejecuta una sola vez al montar el componente
 
   return (
@@ -60,7 +60,7 @@ function App() {
                 <div className="spinner-border animate-spin w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full"></div>
               </div>
             ) : (
-              <Home fundations={fundations} />
+              <Home foundations={foundations} />
             )
           } 
         />
@@ -73,7 +73,7 @@ function App() {
           } 
         />
         <Route path="/success" element={<Success />} />
-        <Route path="/fundacion/:id" element={<FundationDetail />} />
+        <Route path="/fundacion/:id" element={<FoundationDetail />} />
       </Routes>
       <Footer />
     </BrowserRouter>

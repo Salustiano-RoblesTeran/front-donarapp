@@ -14,9 +14,9 @@ export const createDonation = async (donation) => {
     }
 }
 
-export const getTransactions = async (fundationId) => {
+export const getTransactions = async (foundationId) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/payments/transaction/${fundationId}`, {
+        const response = await fetch(`http://localhost:3000/api/payments/transaction/${foundationId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

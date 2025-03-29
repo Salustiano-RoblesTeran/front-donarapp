@@ -19,7 +19,7 @@ export default function Navbar({ isAuth, setIsAuth }) {
   // Función para manejar el cierre de sesión
   const cerrarSesion = () => {
     // Eliminar el token del localStorage
-    localStorage.removeItem("token");
+    localStorage.removeItem("x-token");
     setIsAuth(false);
     navigate("/"); // Redirigir a la página de inicio (puedes cambiar la URL si deseas)
   };
@@ -79,13 +79,13 @@ export default function Navbar({ isAuth, setIsAuth }) {
             <>
               <button
                 onClick={abrirLoginModal}
-                className="bg-black text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-800 w-full"
+                className="bg-black text-white px-4 py-2 rounded-lg shadow-md hover:bg-gray-800"
               >
                 Iniciar Sesión
               </button>
               <button
                 onClick={abrirRegistroModal}
-                className="bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md hover:bg-gray-400 w-full"
+                className="bg-gray-300 text-black px-4 py-2 rounded-lg shadow-md hover:bg-gray-400"
               >
                 Registrarse
               </button>

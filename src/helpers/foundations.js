@@ -1,6 +1,6 @@
-export const getFundations = async (userData) => {
+export const getFoundations = async (userData) => {
     try {
-        const response = await fetch("http://localhost:3000/api/fundations/", {
+        const response = await fetch("http://localhost:3000/api/foundations/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -14,9 +14,9 @@ export const getFundations = async (userData) => {
     }
 }
 
-export const getFundation = async (fundationId) => {
+export const getFoundation = async (foundationId) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/fundations/${fundationId}`, {
+        const response = await fetch(`http://localhost:3000/api/foundations/${foundationId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const getFundation = async (fundationId) => {
 
 export const getCategories = async () => {
     try {
-        const response = await fetch("http://localhost:3000/api/fundations/categories", {
+        const response = await fetch("http://localhost:3000/api/foundations/categories", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -45,9 +45,9 @@ export const getCategories = async () => {
 }
 
 
-export const getFundationsCategories = async (category) => {
+export const getFoundationsCategories = async (category) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/fundations/filter?category=${category}`, {
+        const response = await fetch(`http://localhost:3000/api/foundations/filter?category=${category}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

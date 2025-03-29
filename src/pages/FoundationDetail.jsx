@@ -1,12 +1,12 @@
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { getFundation } from "../helpers/fundations"; 
+import { getFoundation } from "../helpers/foundations"; 
 import { getTransactions } from "../helpers/donation";
 import { createDonation } from "../helpers/donation"
 
-const FundationDetail = () => {
+const FoundationDetail = () => {
   const { id } = useParams(); 
-  const [fundation, setFundation] = useState(null);
+  const [foundation, setFoundation] = useState(null);
   const [loading, setLoading] = useState(true); 
   const [donationAmount, setDonationAmount] = useState(""); 
   const [donationType, setDonationType] = useState('custom');
@@ -15,10 +15,10 @@ const FundationDetail = () => {
   const [transactions, setTransactions] = useState([]);  
 
   useEffect(() => {
-    const fetchFundation = async () => {
+    const fetchFoundation = async () => {
       try {
-        const response = await getFundation(id); 
-        setFundation(response.fundation);
+        const response = await getFoundation(id); 
+        setFoundation(response.foundation);
         setLoading(false);
       } catch (error) {
         console.error("Error al obtener la fundación:", error);
@@ -29,32 +29,29 @@ const FundationDetail = () => {
     const fetchTransactions = async () => {
       try {
         const response = await getTransactions(id);
-        console.log(response)
         setTransactions(response);
       } catch (error) {
         console.error("Error al obtener las transacciones:", error);
       } 
     };
 
-    fetchFundation();
+    fetchFoundation();
     fetchTransactions();
   }, [id]); // Dependencia del id para hacer la solicitud cuando cambie
-
-
-  console.log(fundation)
 
   if (loading) {
     return <p className="text-center mt-10">Cargando fundación...</p>; 
   }
 
-  if (!fundation) {
+  if (!foundation) {
     return <p className="text-center mt-10">No se pudo encontrar la fundación.</p>;
   }
+
 
   // Manejadores de los botones de donación
   const handleDonation = (percentage) => {
     setDonationType('percentage');
-    setDonationAmount((fundation.targetAmount * percentage) / 100);
+    setDonationAmount((foundation.targetAmount * percentage) / 100);
   };
 
   const handleCustomDonation = (e) => {
@@ -75,7 +72,7 @@ const FundationDetail = () => {
       title: donationTitle,
       description: donationDescription,
       amount: donationAmount,
-      fundationId: id,
+      foundationId: id,
     };
   
     try {
@@ -84,8 +81,7 @@ const FundationDetail = () => {
   
       if (result.success && result.url) {
         // Abre la URL en una nueva ventana o pestaña
-        window.open(result.url, '_blank');
-        alert("Gracias por tu donación! Serás redirigido para completar el pago.");
+        window.open(result.url);
       } else {
         alert("Hubo un error al procesar la donación.");
       }
@@ -101,17 +97,17 @@ const FundationDetail = () => {
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-shrink-0">
           <img
-            src={fundation.profile_url}
-            alt={fundation.fundation_name}
+            src={foundation.profile_url}
+            alt={foundation.foundation_name}
             className="w-80 h-80 object-cover rounded-2xl shadow"
           />
         </div>
         <div className="flex flex-col justify-between w-full">
           <div>
-            <h1 className="text-3xl font-bold mb-2">{fundation.fundation_name}</h1>
-            <p className="text-gray-600 mb-4">{fundation.description}</p>
+            <h1 className="text-3xl font-bold mb-2">{foundation.foundation_name}</h1>
+            <p className="text-gray-600 mb-4">{foundation.description}</p>
             <p className="text-sm text-gray-500 font-medium">
-              Categoría: {fundation.category?.category}
+              Categoría: {foundation.category?.category}
             </p>
           </div>
           <div className="mt-6">
@@ -120,13 +116,13 @@ const FundationDetail = () => {
               {/* Botones de porcentaje */}
               <div className="flex space-x-4">
                 <button
-                  className={`py-2 px-4 rounded-lg ${donationType === 'percentage' && donationAmount === (fundation.totalRaised * 5) / 100 ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'} hover:bg-blue-500 hover:text-white transition duration-200`}
+                  className={`py-2 px-4 rounded-lg ${donationType === 'percentage' && donationAmount === (foundation.totalRaised * 5) / 100 ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'} hover:bg-blue-500 hover:text-white transition duration-200`}
                   onClick={() => handleDonation(5)}
                 >
                   5%
                 </button>
                 <button
-                  className={`py-2 px-4 rounded-lg ${donationType === 'percentage' && donationAmount === (fundation.totalRaised * 10) / 100 ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'} hover:bg-blue-500 hover:text-white transition duration-200`}
+                  className={`py-2 px-4 rounded-lg ${donationType === 'percentage' && donationAmount === (foundation.totalRaised * 10) / 100 ? 'bg-blue-500 text-white' : 'bg-white text-gray-700 border border-gray-300'} hover:bg-blue-500 hover:text-white transition duration-200`}
                   onClick={() => handleDonation(10)}
                 >
                   10%
@@ -185,11 +181,11 @@ const FundationDetail = () => {
           <div
             className="h-full bg-green-500 rounded"
             style={{
-              width: `${(transactions.totalRaised / fundation.targetAmount) * 100}%`,  // Calculando el porcentaje
+              width: `${(transactions.totalRaised / foundation.targetAmount) * 100}%`,  // Calculando el porcentaje
             }} 
           ></div>
         </div>
-        <p className="text-sm text-gray-500">{fundation.targetAmount}</p>
+        <p className="text-sm text-gray-500">{foundation.targetAmount}</p>
       </div>
 
     {/* Donaciones Recientes */}
@@ -227,4 +223,4 @@ const FundationDetail = () => {
   );
 };
 
-export default FundationDetail;
+export default FoundationDetail;

@@ -1,6 +1,6 @@
 const token = localStorage.getItem('x-token');
 
-export const authRegister = async (fundationData) => {
+export const authRegister = async (foundationData) => {
     try {
         const response = await fetch("http://localhost:3000/api/auth/sign-up", {
             method: 'POST',
@@ -8,9 +8,8 @@ export const authRegister = async (fundationData) => {
                 'Content-Type': 'application/json',
             },
             
-            body: JSON.stringify(fundationData),
+            body: JSON.stringify(foundationData),
         });
-        console.log(fundationData)
 
         const data = await response.json();
         return data;
@@ -20,14 +19,14 @@ export const authRegister = async (fundationData) => {
     }
 };
 
-export const authLogin = async (fundationData) => {
+export const authLogin = async (foundationData) => {
     try {
         const response = await fetch("http://localhost:3000/api/auth/sign-in", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(fundationData)
+            body: JSON.stringify(foundationData)
         });
         const data = await response.json();
         return data;
@@ -39,8 +38,7 @@ export const authLogin = async (fundationData) => {
 export const isAuthenticate = async () => {
 
     if (!token) {
-        console.error('No se encontró el token');
-        return; // Si no hay token, no se hace la solicitud
+        return; 
     }
 
     try {
