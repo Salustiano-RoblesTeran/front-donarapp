@@ -40,11 +40,19 @@ const FoundationDetail = () => {
   }, [id]); // Dependencia del id para hacer la solicitud cuando cambie
 
   if (loading) {
-    return <p className="text-center mt-10">Cargando fundación...</p>; 
+      return (
+        <div className="min-h-[300px] flex justify-center items-center">
+          <p className="text-center mt-10">Cargando fundación...</p>
+        </div>); 
+          
   }
 
   if (!foundation) {
-    return <p className="text-center mt-10">No se pudo encontrar la fundación.</p>;
+    return (
+    <div className="min-h-[300px] flex justify-center items-center">
+      <p className="text-center mt-10">No se pudo encontrar la fundación.</p>
+    </div>
+    );
   }
 
 
@@ -171,22 +179,22 @@ const FoundationDetail = () => {
         </div>
       </div>
 
-      {/* Estado de Recaudación */}
-      <div className="rounded-2xl shadow-md p-6 bg-white">
-        <h2 className="text-xl font-semibold">Estado de Recaudación</h2>
-        <p className="text-lg text-black font-bold">
-          Recaudado: ${transactions.totalRaised}
-        </p>
-        <div className="h-2 w-full bg-gray-200 rounded">
-          <div
-            className="h-full bg-green-500 rounded"
-            style={{
-              width: `${(transactions.totalRaised / foundation.targetAmount) * 100}%`,  // Calculando el porcentaje
-            }} 
-          ></div>
-        </div>
-        <p className="text-sm text-gray-500">{foundation.targetAmount}</p>
+    {/* Estado de Recaudación */}
+    <div className="rounded-2xl shadow-md p-6 bg-white">
+      <h2 className="text-xl font-semibold">Estado de Recaudación</h2>
+      <p className="text-lg text-black font-bold">
+        Recaudado: ${transactions.totalRaised}
+      </p>
+      <div className="h-2 w-full bg-gray-200 rounded">
+        <div
+          className="h-full bg-green-500 rounded"
+          style={{
+            width: `${Math.min((transactions.totalRaised / foundation.targetAmount) * 100, 100)}%`, 
+          }} 
+        ></div>
       </div>
+      <p className="text-sm text-gray-500">{foundation.targetAmount}</p>
+    </div>
 
     {/* Donaciones Recientes */}
       <div className="rounded-2xl shadow-md p-6 bg-white mb-8">
