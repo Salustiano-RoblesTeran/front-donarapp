@@ -5,7 +5,6 @@ const Success = () => {
   const navigate = useNavigate();
 
   const handleClose = () => {
-    // Puedes redirigir a la página principal o alguna otra página
     navigate('/');
   };
 

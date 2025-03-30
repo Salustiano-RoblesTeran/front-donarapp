@@ -8,7 +8,7 @@ const Home = () => {
   const [categories, setCategories] = useState([]);
   const [foundations, setFoundations] = useState([]);
   const [search, setSearch] = useState("");
-  const [error, setError] = useState(null); // Nuevo estado para manejar errores
+  const [error, setError] = useState(null);
 
   // Ref para la sección de donaciones
   const donationsSectionRef = useRef(null);

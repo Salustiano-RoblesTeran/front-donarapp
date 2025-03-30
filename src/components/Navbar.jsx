@@ -16,12 +16,10 @@ export default function Navbar({ isAuth, setIsAuth }) {
   const abrirRegistroModal = () => setMostrarRegistroModal(true);
   const cerrarRegistroModal = () => setMostrarRegistroModal(false);
 
-  // Función para manejar el cierre de sesión
   const cerrarSesion = () => {
-    // Eliminar el token del localStorage
     localStorage.removeItem("x-token");
     setIsAuth(false);
-    navigate("/"); // Redirigir a la página de inicio (puedes cambiar la URL si deseas)
+    navigate("/");
   };
 
   return (

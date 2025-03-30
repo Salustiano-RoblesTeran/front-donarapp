@@ -13,7 +13,7 @@ import Success from "./pages/Success";
 function App() {
   const [foundations, setFoundations] = useState([]);
   const [isAuth, setIsAuth] = useState(false);
-  const [loading, setLoading] = useState(true); // Estado de carga
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const isAuthenticated = async () => {
@@ -30,7 +30,6 @@ function App() {
       }
     };
 
-    // Verificación de autenticación
     isAuthenticated();
 
     // Obtener las fundaciones
@@ -46,7 +45,7 @@ function App() {
     };
 
     fetchFoundaciones();
-  }, []); // Dependencias vacías, se ejecuta una sola vez al montar el componente
+  }, []);
 
   return (
     <BrowserRouter>

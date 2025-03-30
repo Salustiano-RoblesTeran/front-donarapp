@@ -162,7 +162,7 @@ const FoundationDetail = () => {
             {/* Confirmar Donación */}
             <button
               onClick={handleDonate}
-              disabled={!isDonationValid} // Deshabilitar si no hay un monto válido
+              disabled={!isDonationValid}
               className={`mt-4 w-fit ${isDonationValid ? 'bg-blue-600' : 'bg-gray-400 cursor-not-allowed'} text-white py-2 px-6 rounded-full shadow-md hover:bg-blue-700 transition duration-300`}
             >
               Confirmar Donación de ${donationAmount}

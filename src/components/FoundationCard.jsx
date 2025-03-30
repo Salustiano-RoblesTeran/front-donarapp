@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function FoundationCard({ id, imagen, titulo, descripcion, recaudado, meta, categoria }) {
   const navigate = useNavigate();
-  const progreso = Math.min((recaudado / meta) * 100, 100); // Asegura que no pase del 100%
+  const progreso = Math.min((recaudado / meta) * 100, 100);
 
   return (
     <div className="w-80 h-[500px] rounded-2xl overflow-hidden shadow-lg bg-white flex flex-col transition-transform transform hover:scale-105 hover:shadow-xl">

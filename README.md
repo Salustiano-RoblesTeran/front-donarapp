@@ -10,6 +10,7 @@ La plataforma permite:
 📢 **Crear fundaciones** con imágenes y descripciones detalladas.  
 📊 **Acceder a un dashboard** con herramientas avanzadas:  
 - **Barra de progreso** de recaudación.  
+- **Grafico con estado de las donaciones**. 
 - **Historial de donaciones**.  
 - **Gráfico de barras con donaciones diarias**.  
 
@@ -50,6 +51,6 @@ Para simular distintos estados de pago, usa los siguientes códigos en el campo 
 - **Autenticación:** JSON Web Tokens (JWT)  
 - **Pagos:** Integración con **Mercado Pago**  
 
-📌 **Este proyecto tiene como objetivo ayudar a las fundaciones a recibir apoyo financiero de una manera fácil y transparente.**  
+📌 **Este proyecto tiene como objetivo explicar como integrar pagos a traves del checkout pro de Mercado Pago**  
 
 ¡Súmate y haz la diferencia! 🚀  
