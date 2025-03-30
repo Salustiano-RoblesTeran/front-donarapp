@@ -9,6 +9,7 @@ import { isAuthenticate } from './helpers/auth';
 import { getFoundations } from './helpers/foundations';
 import Footer from './components/Footer';
 import Success from "./pages/Success";
+import Error from "./pages/Error"
 
 function App() {
   const [foundations, setFoundations] = useState([]);
@@ -37,10 +38,10 @@ function App() {
       try {
         const response = await getFoundations();
         setFoundations(response);
-        setLoading(false); // Una vez que se obtienen las fundaciones, se detiene el spinner
+        setLoading(false);
       } catch (error) {
         console.error('Error al obtener las fundaciones:', error.message);
-        setLoading(false); // Detener el spinner incluso si ocurre un error
+        setLoading(false); 
       }
     };
 
@@ -73,6 +74,9 @@ function App() {
         />
         <Route path="/success" element={<Success />} />
         <Route path="/fundacion/:id" element={<FoundationDetail />} />
+
+        <Route path="*" element={<Error />} />
+
       </Routes>
       <Footer />
     </BrowserRouter>

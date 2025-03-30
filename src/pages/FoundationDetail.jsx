@@ -41,7 +41,7 @@ const FoundationDetail = () => {
 
   if (loading) {
       return (
-        <div className="min-h-[300px] flex justify-center items-center">
+        <div className="min-h-[600px] flex justify-center items-center">
           <p className="text-center mt-10">Cargando fundación...</p>
         </div>); 
           
@@ -49,7 +49,7 @@ const FoundationDetail = () => {
 
   if (!foundation) {
     return (
-    <div className="min-h-[300px] flex justify-center items-center">
+    <div className="min-h-[600px] flex justify-center items-center">
       <p className="text-center mt-10">No se pudo encontrar la fundación.</p>
     </div>
     );
