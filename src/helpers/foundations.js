@@ -1,6 +1,6 @@
 export const getFoundations = async (userData) => {
     try {
-        const response = await fetch("http://localhost:3000/api/foundations/", {
+        const response = await fetch("https://donarapp.onrender.com/api/foundations/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -16,7 +16,7 @@ export const getFoundations = async (userData) => {
 
 export const getFoundation = async (foundationId) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/foundations/${foundationId}`, {
+        const response = await fetch(`https://donarapp.onrender.com/api/foundations/${foundationId}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ export const getFoundation = async (foundationId) => {
 
 export const getCategories = async () => {
     try {
-        const response = await fetch("http://localhost:3000/api/foundations/categories", {
+        const response = await fetch("https://donarapp.onrender.com/api/foundations/categories", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ export const getCategories = async () => {
 
 export const getFoundationsCategories = async (category) => {
     try {
-        const response = await fetch(`http://localhost:3000/api/foundations/filter?category=${category}`, {
+        const response = await fetch(`https://donarapp.onrender.com/api/foundations/filter?category=${category}`, {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

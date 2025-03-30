@@ -2,7 +2,7 @@ const token = localStorage.getItem('x-token');
 
 export const authRegister = async (foundationData) => {
     try {
-        const response = await fetch("http://localhost:3000/api/auth/sign-up", {
+        const response = await fetch("https://donarapp.onrender.com/api/auth/sign-up", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -21,7 +21,7 @@ export const authRegister = async (foundationData) => {
 
 export const authLogin = async (foundationData) => {
     try {
-        const response = await fetch("http://localhost:3000/api/auth/sign-in", {
+        const response = await fetch("https://donarapp.onrender.com/api/auth/sign-in", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export const isAuthenticate = async () => {
     }
 
     try {
-        const response = await fetch("http://localhost:3000/api/auth/", {
+        const response = await fetch("https://donarapp.onrender.com/api/auth/", {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',

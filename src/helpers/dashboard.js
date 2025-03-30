@@ -2,7 +2,7 @@ const token = localStorage.getItem('x-token');
 
 export const getFoundation = async () => {
     try {
-        const response = await fetch('http://localhost:3000/api/dashboard', {
+        const response = await fetch('https://donarapp.onrender.com/api/dashboard', {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
